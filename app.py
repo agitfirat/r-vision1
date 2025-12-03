@@ -9,23 +9,119 @@ st.set_page_config(
     layout="centered",
 )
 
-# ----------------- CHARGER LES DONNÉES -----------------
+# ----------------- STYLES -----------------
+st.markdown(
+    """
+    <style>
+    /* Fond global */
+    .main {
+        background: radial-gradient(circle at top left, #020617 0, #020617 40%, #000000 100%);
+        color: #e5e7eb;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                     "Segoe UI", sans-serif;
+    }
+
+    /* Titre */
+    h1 {
+        font-weight: 800 !important;
+        letter-spacing: 0.04em;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Conteneur de la carte */
+    .flashcard-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Carte principale */
+    .flashcard {
+        background: radial-gradient(circle at top left, #111827 0, #020617 55%, #020617 100%);
+        border-radius: 28px;
+        padding: 2.8rem 3rem;
+        box-shadow:
+            0 35px 80px rgba(0,0,0,0.85),
+            0 0 0 1px rgba(148,163,184,0.06);
+        max-width: 900px;
+        width: 100%;
+    }
+
+    .flashcard-question {
+        font-size: 1.6rem;
+        line-height: 1.5;
+        font-weight: 500;
+        color: #f9fafb;
+    }
+
+    /* Bloc réponse */
+    .flashcard-answer-box {
+        margin-top: 2rem;
+        background: rgba(15,23,42,0.96);
+        border-radius: 18px;
+        padding: 1.1rem 1.4rem;
+        border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .flashcard-answer-title {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: #9ca3af;
+        margin-bottom: 0.3rem;
+    }
+
+    .flashcard-answer {
+        font-size: 1.2rem;
+        color: #e5e7eb;
+    }
+
+    /* Boutons */
+    div.stButton > button {
+        border-radius: 999px !important;
+        padding: 0.5rem 1.6rem !important;
+        font-size: 0.95rem !important;
+        border: 1px solid rgba(148,163,184,0.5) !important;
+    }
+
+    /* Bouton réponse */
+    div.stButton > button#toggle-answer-btn {
+        background-color: #111827 !important;
+    }
+
+    /* Progress bar plus fine */
+    .stProgress > div > div > div > div {
+        height: 5px;
+        border-radius: 999px;
+    }
+
+    /* Réduire un peu l'espace sous la barre de progression */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ----------------- DATA -----------------
 @st.cache_data
 def load_flashcards(csv_path: str):
-    # Le CSV n'a pas d'en-tête, donc header=None
     df = pd.read_csv(csv_path, header=None)
     df.columns = ["question", "answer"]
     return df
 
-DATA_PATH = Path("flashcards-2.csv")  # mets le fichier à côté de app.py
+DATA_PATH = Path("flashcards-2.csv")
 df = load_flashcards(str(DATA_PATH))
 n_cards = len(df)
 
 # ----------------- SESSION STATE -----------------
 if "index" not in st.session_state:
-    st.session_state.index = 0      # carte actuelle
+    st.session_state.index = 0
 if "show_answer" not in st.session_state:
-    st.session_state.show_answer = False  # afficher la réponse ou non
+    st.session_state.show_answer = False
 
 def next_card():
     st.session_state.index = (st.session_state.index + 1) % n_cards
@@ -35,84 +131,38 @@ def prev_card():
     st.session_state.index = (st.session_state.index - 1) % n_cards
     st.session_state.show_answer = False
 
-# ----------------- STYLE -----------------
-st.markdown(
-    """
-    <style>
-    .main {
-        background: radial-gradient(circle at top left, #111827 0, #020617 45%, #000000 100%);
-    }
-    .flashcard-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-    }
-    .flashcard {
-        background: #111827;
-        background-image: radial-gradient(circle at top left, #1f2937, #020617);
-        color: #f9fafb;
-        padding: 3rem 2.5rem;
-        border-radius: 24px;
-        box-shadow: 0 25px 40px rgba(0,0,0,0.6);
-        max-width: 800px;
-        width: 100%;
-        font-size: 1.4rem;
-        line-height: 1.5;
-    }
-    .flashcard-question {
-        font-weight: 500;
-    }
-    .flashcard-separator {
-        margin: 1.5rem 0 1rem 0;
-        border: none;
-        border-top: 1px solid rgba(249,250,251,0.15);
-    }
-    .flashcard-answer {
-        font-size: 1.2rem;
-        color: #e5e7eb;
-    }
-    div.stButton > button.answer-btn {
-        border-radius: 999px;
-        padding: 0.4rem 1.4rem;
-        font-size: 1rem;
-    }
-    div.stButton > button.nav-btn {
-        border-radius: 999px;
-        padding: 0.4rem 1.4rem;
-        font-size: 1rem;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
 # ----------------- UI -----------------
 st.title("🧠 Réseaux Flashcards")
 
 current = df.iloc[st.session_state.index]
 
-# Carte question + (éventuellement) réponse
-if st.session_state.show_answer:
-    answer_html = f"""
-        <hr class="flashcard-separator" />
-        <div class="flashcard-answer">{current['answer']}</div>
-    """
-else:
-    answer_html = ""
-
+# Carte question + réponse
 card_html = f"""
-<div class="flashcard-container">
+<div class="flashcard-wrapper">
   <div class="flashcard">
-    <div class="flashcard-question">{current['question']}</div>
-    {answer_html}
+    <div class="flashcard-question">
+      {current['question']}
+    </div>
+"""
+
+if st.session_state.show_answer:
+    card_html += f"""
+    <div class="flashcard-answer-box">
+        <div class="flashcard-answer-title">Réponse</div>
+        <div class="flashcard-answer">{current['answer']}</div>
+    </div>
+    """
+
+card_html += """
   </div>
 </div>
 """
+
 st.markdown(card_html, unsafe_allow_html=True)
 
+# Bouton afficher / masquer la réponse
 label = "Masquer la réponse" if st.session_state.show_answer else "Afficher la réponse"
-if st.button(label, key="toggle_answer_btn", type="secondary"):
+if st.button(label, key="toggle-answer-btn"):
     st.session_state.show_answer = not st.session_state.show_answer
 
 # Barre de progression
@@ -120,13 +170,13 @@ progress = (st.session_state.index + 1) / n_cards
 st.progress(progress)
 st.caption(f"Carte {st.session_state.index + 1} / {n_cards}")
 
-# Boutons Précédent / Suivant
-col1, col2, col3 = st.columns([1, 2, 1])
+# Navigation
+col1, _, col3 = st.columns([1, 2, 1])
 
 with col1:
-    if st.button("⬅️ Précédent", key="prev", help="Carte précédente", type="secondary"):
+    if st.button("⬅️ Précédent", key="prev-btn"):
         prev_card()
 
 with col3:
-    if st.button("Suivant ➡️", key="next", help="Carte suivante", type="secondary"):
+    if st.button("Suivant ➡️", key="next-btn"):
         next_card()
