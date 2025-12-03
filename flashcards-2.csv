@@ -1,0 +1,76 @@
+"En analyse de réseaux, comment nomme-t-on les points ou entités qui composent le réseau ? (trois termes)","Vertex, node, nœud, ou sommet."
+"En analyse de réseaux, comment nomme-t-on les connexions entre les nœuds ? (quatre termes)","Edge, arc, line, lien, ou interaction."
+Quelle est la principale différence entre un réseau non-orienté et un réseau orienté ?,"Dans un réseau orienté, les liens (arcs) ont une direction (indiquée par des flèches), tandis que dans un réseau non-orienté, les liens (arêtes) sont bidirectionnels ou symétriques."
+Quelle est la notation formelle pour un graphe $G$ ?,"$G = (V, E)$, où V est l'ensemble des sommets (vertices) et E est l'ensemble des arêtes (edges)."
+"Dans le contexte de la structure d'un site web modélisé comme un réseau, que représentent V (les sommets) et E (les arêtes) ?",V représente les pages web et E représente les liens hypertextes d'une page à une autre.
+"Dans un réseau social, que représentent V et E ?",V représente les individus et E représente les relations comme les amitiés ou les connaissances.
+Comment définit-on la covariance de deux variables quantitatives X et Y ?,"C'est la moyenne du produit des écarts aux moyennes : $cov(X, Y) = s_{XY} = \frac{1}{n} \sum_{i=1}^{n} [x_i - \bar{x}][y_i - \bar{y}]$."
+Quelle est une limite majeure de la covariance en tant que mesure de la relation ?,Sa valeur dépend des unités de mesure dans lesquelles les variables X et Y sont exprimées.
+Comment le coefficient de corrélation linéaire de Pearson résout-il le problème de la dépendance aux unités de la covariance ?,Il normalise la covariance en la divisant par le produit des écarts-types des variables : $r_{XY} = \frac{s_{XY}}{\sqrt{s_X} s_Y}$.
+Quelle est la plage de valeurs possibles pour le coefficient de corrélation de Pearson ?,Le coefficient est compris entre -1 et +1.
+Qu'indique un coefficient de corrélation linéaire positif ?,Il indique que les variables X et Y varient dans le même sens.
+Qu'indique un coefficient de corrélation linéaire négatif ?,Il indique que les variables X et Y varient dans des sens opposés.
+Comment interprète-t-on la force d'une relation à partir de la valeur absolue du coefficient de corrélation ?,"Une valeur absolue proche de 1 indique une liaison forte, tandis qu'une valeur proche de 0 indique une liaison faible."
+Que peut-on conclure si le coefficient de corrélation linéaire vaut +1 ou -1 ?,Il existe une relation affine parfaite (linéaire) entre les variables X et Y.
+Vrai ou Faux : Un coefficient de corrélation fort implique une relation de causalité.,Faux. Le coefficient de corrélation linéaire ne donne aucune information de causalité.
+Qu'est-ce qu'une variable centrée et quelle est sa moyenne ?,Une variable centrée est $X - \bar{x}$. Sa moyenne est nulle.
+Qu'est-ce qu'une variable centrée et réduite et quelles sont sa moyenne et son écart-type ?,C'est $\frac{X-\bar{x}}{s_X}$. Sa moyenne est nulle et son écart-type est de 1.
+À quoi est égale la covariance de deux variables centrées et réduites ?,Elle est égale à leur coefficient de corrélation linéaire.
+"Comment interprète-t-on le coefficient de détermination, $R^2$ ?",Il représente la proportion de la variance de Y qui est expliquée par X.
+"Si $corr(X, Y) = -0.65$, quel pourcentage de la variation de Y peut être expliqué par X ?","$R^2(X, Y) = (-0.65)^2 \times 100 = 42.25\%$, donc environ 42%."
+Dans quel cas est-il pertinent d'effectuer une régression linéaire ?,"Quand le nuage de points indique une relation nette, que le coefficient de corrélation est fort, et qu'on suppose a priori une relation de causalité."
+Quel critère est utilisé pour trouver la meilleure droite de régression linéaire ?,"Le critère des moindres carrés, qui minimise la somme des carrés des écarts verticaux des points à la droite."
+"Dans la régression linéaire $y = ax + b$, comment sont calculés les estimateurs $\hat{a}$ et $\hat{b}$ par la méthode des moindres carrés ?",$\hat{a} = \frac{s_{XY}}{s_X^2}$ et $\hat{b} = \bar{y} - \hat{a}\bar{x}$.
+"Si deux variables X et Y sont indépendantes (noté $X \perp Y$), que peut-on dire de leur corrélation ?",Leur corrélation est nulle (corr = 0).
+"Si la corrélation entre deux variables est nulle, peut-on conclure qu'elles sont indépendantes ?","Non, l'inverse n'est pas toujours vrai. La corrélation mesure uniquement la dépendance linéaire."
+Qu'est-ce que la corrélation partielle ?,"C'est une mesure du degré d'association entre deux variables aléatoires, après avoir éliminé l'effet d'un ensemble de variables de contrôle (variables confondantes)."
+"Formellement, comment est définie la corrélation partielle $\rho_{XY.Z}$ entre X et Y, étant donné un ensemble Z ?",C'est la corrélation entre les résidus $\epsilon_X$ et $\epsilon_Y$ résultant de la régression linéaire de X avec Z et de Y avec Z.
+Quelle est la formule récursive pour la corrélation partielle avec un seul variable de contrôle $Z_0$ ?,$\rho_{XY.Z_0} = \frac{\rho_{XY} - \rho_{XZ_0}\rho_{Z_0Y}}{\sqrt{1-\rho^2_{XZ_0}}\sqrt{1-\rho^2_{Z_0Y}}}$.
+"En utilisant l'inversion de matrice, comment peut-on calculer les corrélations partielles ?","En utilisant la matrice de précision $P = \Omega^{-1}$, où $\Omega$ est la matrice de corrélation. La corrélation partielle est $$\rho_{X_iX_j.V\setminus\{X_i,X_j\}} = \frac{- p_{ij}}{\sqrt{p_{ii}p_{jj}}}$."
+"En théorie des graphes, comment définit-on le degré d'un nœud $v_i$ ?","C'est le nombre d'arêtes connectées à ce nœud, noté $|\{e_{v_i v_j}, v_j \in V \}| $."
+Qu'est-ce que la distribution des degrés $p_k$ d'un réseau ?,"C'est la proportion de nœuds dans le réseau ayant un degré $k$, calculée comme $p_k = \frac{|V_k|}{|V|}$."
+Comment calcule-t-on le degré moyen $\langle k \rangle$ d'un réseau ?,"C'est la moyenne des degrés de tous les nœuds, calculée par la formule $\langle k \rangle = \sum_{k \ge 1} k \cdot p_k$."
+Quelle est la caractéristique typique de la distribution des degrés d'un réseau réel (comme Internet) ?,Il y a beaucoup de nœuds avec un faible degré et quelques nœuds (hubs) avec un très haut degré.
+À quelle loi mathématique la distribution des degrés d'un réseau réel obéit-elle souvent ?,"Une loi de puissance (power law), de la forme $P(k) \sim k^{-\alpha}$."
+Quelle est l'apparence d'une distribution en loi de puissance sur une échelle log-log ?,Elle apparaît comme une ligne droite.
+Quelle est la forme de la distribution des degrés d'un réseau aléatoire (modèle d'Erdös-Rényi) ?,"Elle suit une distribution binomiale, qui s'approche d'une distribution de Poisson pour de grands réseaux, avec un pic autour du degré moyen."
+Comment construit-on un réseau selon le modèle d'Erdös-Rényi ?,On part de N nœuds isolés et on connecte chaque paire de nœuds avec une probabilité fixe $p$.
+Quelle est la principale caractéristique des degrés dans un réseau d'Erdös-Rényi ?,"Les degrés sont homogènes, c'est-à-dire qu'ils sont tous proches du degré moyen."
+Quels sont les deux mécanismes fondamentaux du modèle d'Albert-Barabási pour les réseaux sans échelle (scale-free) ?,La croissance (le réseau s'agrandit en ajoutant de nouveaux nœuds) et l'attachement préférentiel.
+Qu'est-ce que l'attachement préférentiel dans le modèle d'Albert-Barabási ?,La probabilité qu'un nouveau nœud se connecte à un nœud existant est proportionnelle au degré de ce nœud existant (les riches deviennent plus riches).
+Quel type de distribution de degrés le modèle d'Albert-Barabási produit-il ?,Une distribution en loi de puissance (power-law).
+Comment est défini le coefficient de clustering local $cc(v)$ d'un nœud $v$ ?,C'est le rapport entre le nombre de paires de voisins connectés et le nombre total de paires de voisins : $cc(v) = \frac{\#\text{paires de voisins connectés}}{\#\text{paires de voisins}}$.
+"Comment définit-on la distance $d(v_i, v_j)$ entre deux nœuds dans un graphe ?",C'est la longueur du plus court chemin (shortest path) entre $v_i$ et $v_j$.
+Qu'est-ce que le diamètre $\Delta$ d'un graphe ?,C'est la longueur du plus long des plus courts chemins entre n'importe quelle paire de sommets du graphe.
+Que mesure la centralité d'intermédiarité (Betweenness Centrality) d'un nœud $v$ ?,Elle quantifie le nombre de fois qu'un nœud agit comme un pont le long du plus court chemin entre deux autres nœuds.
+Quelle est la formule de la centralité d'intermédiarité (Betweenness Centrality) $BC(v)$ ?,"$BC(v) = \sum_{s \ne t \ne v} \frac{\sigma_{st}(v)}{\sigma_{st}}$, où $\sigma_{st}$ est le nombre de plus courts chemins entre s et t, et $\sigma_{st}(v)$ est le nombre de ces chemins qui passent par v."
+Que mesure la centralité de proximité (Closeness Centrality) d'un nœud $v$ ?,Elle mesure à quelle vitesse l'information peut se propager de $v$ à tous les autres nœuds. C'est l'inverse de la somme de ses distances à tous les autres nœuds.
+Quelle est la formule de la centralité de proximité (Closeness Centrality) ?,"C'est l'inverse de la 'farness' : $\frac{1}{\sum_{v \ne i} d(v, i)}$."
+Quelles sont les deux propriétés caractéristiques d'un réseau 'petit monde' (small-world) ?,Un petit chemin moyen le plus court (small average shortest path) et un coefficient de clustering élevé (high clustering coefficient).
+Quel modèle génère des réseaux 'petit monde' (small-world) ?,Le modèle de Watts-Strogatz.
+Comment le modèle de Watts-Strogatz construit-il un réseau ?,Il part d'un réseau en anneau régulier et recâble aléatoirement chaque arête avec une certaine probabilité $p$.
+Quelle est la différence entre la duplication à petite échelle (SSD) et la duplication du génome entier (WGD) ?,"La SSD duplique un ou quelques gènes chez un ou quelques individus, tandis que la WGD duplique l'ensemble du génome."
+"Dans l'analyse de médiation, que représente l'Effet Direct (DE) ?","L'effet de X sur Y qui n'est pas médié par la variable M, soit $DE_{x \to x'} = E(Y|x',m) - E(Y|x,m)]P(M|x)$."
+"Dans l'analyse de médiation, que représente l'Effet Indirect (IE) ?","L'effet de X sur Y qui passe par le médiateur M, soit $IE_{x \to x'} = E(Y|x,m)[P(M|x') - P(M|x)]$."
+Qu'est-ce qu'un réseau bayésien (Bayesian Network - BN) ?,C'est un modèle graphique probabiliste qui représente un ensemble de variables et leurs dépendances conditionnelles via un graphe orienté acyclique (DAG).
+"Dans un réseau bayésien, la distribution de probabilité jointe $P(X_1, ..., X_n)$ est factorisée comme le produit des probabilités conditionnelles de chaque nœud étant donné ses ____.",parents ($Pa_G(X_i)$)
+Quelle est la formule de la factorisation de la probabilité jointe pour un réseau bayésien G ?,"$P(X_1, X_2, ..., X_n) = \prod_{i=1}^{n} P(X_i | Pa_G(X_i))$."
+Quelle est l'approche 'Search & Score' pour apprendre la structure d'un réseau bayésien ?,C'est une méthode qui recherche dans l'espace des graphes possibles celui qui maximise une fonction de score (comme la vraisemblance ou le score BIC).
+Quel est le principal défi de l'approche 'Search & Score' ?,"L'espace des réseaux possibles est super-exponentiel, ce qui rend la recherche exhaustive infaisable."
+Citez trois grandes familles de méthodes pour la reconstruction de réseaux.,"1. Search & Score (Bayésien), 2. Information-theoretic (basé sur la théorie de l'information), 3. Constraint-based (basé sur les contraintes d'indépendance conditionnelle)."
+"Quel est le principe de l'algorithme ARACNE, une méthode basée sur la théorie de l'information ?",Il utilise l'inégalité de traitement des données (Data Processing Inequality) pour élaguer les arêtes indirectes dans les triplets de variables.
+"Selon l'inégalité de traitement des données pour $X_1 \to X_2 \to X_3$, quelle est la relation entre $I(X_1; X_3)$ et les autres informations mutuelles ?","$I(X_1; X_3) \le \min(I(X_1; X_2), I(X_2; X_3))$."
+Quel est le principe des méthodes de reconstruction de réseaux basées sur les contraintes (constraint-based) ?,Elles utilisent des tests statistiques d'indépendance conditionnelle pour déterminer la présence ou l'absence d'arêtes dans le graphe.
+Quel est un avantage et un inconvénient des méthodes basées sur les contraintes comme l'algorithme PC ?,Avantage : elles peuvent être exactes et polynomiales. Inconvénient : elles ne sont pas très robustes au bruit d'échantillonnage.
+"Dans un réseau bayésien, que signifie la propriété de Markov locale ?","Chaque variable $X_i$ est indépendante de ses non-descendants, étant donné ses parents."
+Qu'est-ce qu'une v-structure dans un réseau bayésien ?,"C'est un triplet de nœuds $(X, Z, Y)$ où $X \to Z \leftarrow Y$, et il n'y a pas d'arête entre X et Y. Z est appelé un 'collider'."
+Quelle est la propriété d'indépendance d'une v-structure $X \to Z \leftarrow Y$ ?,"X et Y sont marginalement indépendants, mais deviennent dépendants conditionnellement à Z."
+Quelle est la relation entre le log de la vraisemblance ($log L_{D|G}$) et l'entropie pour un modèle de réseau bayésien ?,Le log de la vraisemblance est proportionnel à l'entropie négative : $log L_{D|G} = -N \sum_i H(X_i | Pa_G(X_i))$.
+Qu'est-ce que l'information à 3 points $I(x; y; z)$ ?,"C'est une mesure de la dépendance entre trois variables, définie comme $I(x; y; z) = I(x; y) - I(x; y | z)$."
+Comment le signe de l'information à 3 points $I(x; y; z)$ aide-t-il à distinguer les structures ?,"Un signe négatif ($I < 0$) suggère une v-structure ($x \to z \leftarrow y$), tandis qu'un signe positif ($I > 0$) suggère une structure non-v (en chaîne ou fourche)."
+Le ratio des vraisemblances entre un modèle v-structure et un modèle non-v-structure est égal à $\exp(-N \times$ _____).,$I(x; y; z)$ (l'information à 3 points)
+Qu'est-ce que le principe de cause commune de Hans Reichenbach ?,"Si deux événements $E_1$ et $E_2$ sont corrélés, il existe une cause commune C telle que $E_1 \leftarrow C \to E_2$."
+Quel est le principe de la méthode 3off2 pour la reconstruction de réseaux ?,C'est une approche robuste qui collecte progressivement les contributions à 3 points les plus probables pour les soustraire de l'information à 2 points afin de déterminer les indépendances structurelles.
+"En évaluation de la reconstruction de réseaux, que mesure la Précision ?",La proportion d'arêtes reconstruites qui sont correctes : $TP / (TP + FP)$.
+"En évaluation de la reconstruction de réseaux, que mesure le Rappel (Recall) ?",La proportion d'arêtes du vrai réseau qui ont été correctement reconstruites : $TP / (TP + FN)$.
+Qu'est-ce que le F-score en évaluation de réseaux ?,C'est la moyenne harmonique de la précision et du rappel : $2 \cdot Precision \cdot Recall / (Precision + Recall)$.
