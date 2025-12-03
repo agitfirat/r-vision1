@@ -111,9 +111,8 @@ card_html = f"""
 """
 st.markdown(card_html, unsafe_allow_html=True)
 
-# Bouton "Afficher la réponse" / "Masquer la réponse"
 label = "Masquer la réponse" if st.session_state.show_answer else "Afficher la réponse"
-if st.button(label, key="show_answer", type="secondary"):
+if st.button(label, key="toggle_answer_btn", type="secondary"):
     st.session_state.show_answer = not st.session_state.show_answer
 
 # Barre de progression
