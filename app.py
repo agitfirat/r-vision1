@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 from pathlib import Path
+from html import escape
+import textwrap
 
 # ----------------- CONFIG GLOBALE -----------------
 st.set_page_config(
@@ -13,7 +15,6 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Fond global */
     .main {
         background: radial-gradient(circle at top left, #020617 0, #020617 40%, #000000 100%);
         color: #e5e7eb;
@@ -21,14 +22,12 @@ st.markdown(
                      "Segoe UI", sans-serif;
     }
 
-    /* Titre */
     h1 {
         font-weight: 800 !important;
         letter-spacing: 0.04em;
         margin-bottom: 1.5rem;
     }
 
-    /* Conteneur de la carte */
     .flashcard-wrapper {
         display: flex;
         justify-content: center;
@@ -36,7 +35,6 @@ st.markdown(
         margin-bottom: 1.5rem;
     }
 
-    /* Carte principale */
     .flashcard {
         background: radial-gradient(circle at top left, #111827 0, #020617 55%, #020617 100%);
         border-radius: 28px;
@@ -48,20 +46,11 @@ st.markdown(
         width: 100%;
     }
 
-    .flashcard-question {
+    .flashcard-text {
         font-size: 1.6rem;
         line-height: 1.5;
         font-weight: 500;
         color: #f9fafb;
-    }
-
-    /* Bloc réponse */
-    .flashcard-answer-box {
-        margin-top: 2rem;
-        background: rgba(15,23,42,0.96);
-        border-radius: 18px;
-        padding: 1.1rem 1.4rem;
-        border: 1px solid rgba(148,163,184,0.25);
     }
 
     .flashcard-answer-title {
@@ -69,15 +58,8 @@ st.markdown(
         text-transform: uppercase;
         letter-spacing: 0.14em;
         color: #9ca3af;
-        margin-bottom: 0.3rem;
     }
 
-    .flashcard-answer {
-        font-size: 1.2rem;
-        color: #e5e7eb;
-    }
-
-    /* Boutons */
     div.stButton > button {
         border-radius: 999px !important;
         padding: 0.5rem 1.6rem !important;
@@ -85,18 +67,11 @@ st.markdown(
         border: 1px solid rgba(148,163,184,0.5) !important;
     }
 
-    /* Bouton réponse */
-    div.stButton > button#toggle-answer-btn {
-        background-color: #111827 !important;
-    }
-
-    /* Progress bar plus fine */
     .stProgress > div > div > div > div {
         height: 5px;
         border-radius: 999px;
     }
 
-    /* Réduire un peu l'espace sous la barre de progression */
     .block-container {
         padding-top: 2rem;
         padding-bottom: 2.5rem;
@@ -136,31 +111,29 @@ st.title("🧠 Réseaux Flashcards")
 
 current = df.iloc[st.session_state.index]
 
-# Carte question + réponse
+# 2 STR : front (question) / back (question + réponse)
+q = escape(str(current["question"]))
+a = escape(str(current["answer"]))
+
+front = q
+back = f"""{q}<br><br><span class="flashcard-answer-title">Réponse</span><br>{a}"""
+
+content = back if st.session_state.show_answer else front
+
 card_html = f"""
 <div class="flashcard-wrapper">
   <div class="flashcard">
-    <div class="flashcard-question">
-      {current['question']}
+    <div class="flashcard-text">
+      {content}
     </div>
-"""
-
-if st.session_state.show_answer:
-    card_html += f"""
-    <div class="flashcard-answer-box">
-        <div class="flashcard-answer-title">Réponse</div>
-        <div class="flashcard-answer">{current['answer']}</div>
-    </div>
-    """
-
-card_html += """
   </div>
 </div>
 """
+card_html = textwrap.dedent(card_html)
 
 st.markdown(card_html, unsafe_allow_html=True)
 
-# Bouton afficher / masquer la réponse
+# Bouton afficher / masquer
 label = "Masquer la réponse" if st.session_state.show_answer else "Afficher la réponse"
 if st.button(label, key="toggle-answer-btn"):
     st.session_state.show_answer = not st.session_state.show_answer
